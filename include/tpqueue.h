@@ -5,40 +5,36 @@
 
 template<typename T, int size>
 class TPQueue {
-  private:
+
+ private:
     T* arr;
     int begin;
     int end;
     int count;
-    int step_back(int index) const
-    {
+    int step_back(int index) const {
         int res = --index;
         if (res < 0)
             res += size + 1;
         return res;
     }
-    int step_forward(int index) const
-    {
+    int step_forward(int index) const {
         int res = ++index;
         if (res > size)
             res -= size + 1;
         return res;
     }
-public:
-    TPQueue() : begin(0), end(0), count(0)
-    {
+    
+ public:
+    TPQueue() : begin(0), end(0), count(0) {
         arr = new T[size + 1];
     }
-    ~TPQueue()
-    {
+    ~TPQueue() {
         delete[] arr;
     }
-    void push(const T& item)
-    {
+    void push(const T& item) {
         assert(count < size);
         int current = end;
-        while (current != begin && item.prior > arr[step_back(current)].prior)
-        {
+        while (current != begin && item.prior > arr[step_back(current)].prior) {
             arr[current] = arr[step_back(current)];
             current = step_back(current);
         }
@@ -46,8 +42,7 @@ public:
         end = step_forward(end);
         count++;
     }
-    T pop()
-    {
+    T pop() {
         assert(count > 0);
         T item = arr[begin];
         begin = step_forward(begin);
@@ -58,6 +53,6 @@ public:
 struct SYM {
   char ch;
   int prior;
-}
+};
 
 #endif  // INCLUDE_TPQUEUE_H_
